@@ -1,0 +1,28 @@
+{
+  "name": "shellts",
+  "version": "1.0.0",
+  "description": "A shell program",
+  "main": "main.ts",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "build": "tsc",
+    "start": "node dist/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/husseinALJ/shellts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/husseinALJ/shellts/issues"
+  },
+  "homepage": "https://github.com/husseinALJ/shellts#readme",
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2"
+  }
+}
