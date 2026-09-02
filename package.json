@@ -4,7 +4,7 @@
   "description": "A shell program",
   "main": "main.ts",
   "scripts": {
-    "dev": "tsx watch src/main.ts",
+    "dev": "tsx src/main.ts",
     "build": "tsc",
     "start": "node dist/main.ts"
   },
