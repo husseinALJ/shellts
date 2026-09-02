@@ -1,0 +1,1 @@
+export type Token = [command: string , params: string]

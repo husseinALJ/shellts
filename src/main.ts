@@ -1,5 +1,7 @@
 import { createInterface } from "readline";
 
+import { tokenize } from "./lexer/tokenizer.js";
+
 const rl = createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -8,6 +10,7 @@ const rl = createInterface({
 
 rl.prompt()
 
-rl.on("line", () => {
+rl.on("line", (input) => {
+  const tokens: string[] = tokenize(input);
   rl.prompt();
 });
