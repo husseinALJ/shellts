@@ -9,10 +9,14 @@ const rl = createInterface({
   prompt: "$ ",
 });
 
-rl.prompt()
+rl.prompt();
 
 rl.on("line", (input) => {
-  const tokens = tokenize(input);
-  const program = parser(tokens);
+  if (input) {
+    const tokens = tokenize(input);
+    console.log("tokens:", tokens);
+    const program = parser(tokens);
+    console.log("program:", program);
+  }
   rl.prompt();
 });
