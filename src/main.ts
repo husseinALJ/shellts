@@ -1,6 +1,7 @@
 import { createInterface } from "readline";
 
 import { tokenize } from "./lexer/tokenizer.js";
+import { parser } from "./parser/parser.js";
 
 const rl = createInterface({
   input: process.stdin,
@@ -11,6 +12,7 @@ const rl = createInterface({
 rl.prompt()
 
 rl.on("line", (input) => {
-  const tokens: string[] = tokenize(input);
+  const tokens = tokenize(input);
+  const program = parser(tokens);
   rl.prompt();
 });
