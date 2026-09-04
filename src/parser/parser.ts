@@ -35,6 +35,6 @@ const paramsFormatter = (params: string) => {
 
 export const parser = (token: Token): CommandAST => {
   const commandType = getCommandType(token[0]);
-  const params = paramsFormatter(token[1]) || token[1]
+  const params = paramsFormatter(token[1])
   return [commandType, params];
 };
