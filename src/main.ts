@@ -12,7 +12,7 @@ const rl = createInterface({
 rl.prompt();
 
 rl.on("line", (input) => {
-  if (input) {
+  if (input.trim()) {
     const tokens = tokenize(input);
     const program = parser(tokens);
   }
