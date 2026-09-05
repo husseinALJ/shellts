@@ -10,6 +10,18 @@ export const builtinCommands: BuiltIns = {
   pwd: () => {
     return console.log(process.cwd());
   },
+  cd: (dir?: string) => {
+    if (dir === "~" || dir?.trim() === "") {
+      dir = process.env.HOME!;
+    }
+    try {
+      return process.chdir(dir!);
+    } catch (err) {
+      if (err) return console.log(`cd: ${dir}: No such file or directory`);
+      return;
+    }
+  },
+
   echo: (text?: string) => {
     console.log(text?.replaceAll("'", ""));
   },
