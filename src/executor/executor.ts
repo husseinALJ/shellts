@@ -11,7 +11,7 @@ export const builtinCommands: BuiltIns = {
     return console.log(process.cwd());
   },
   echo: (text?: string) => {
-    console.log(text);
+    console.log(text?.replaceAll("'", ""));
   },
 };
 
