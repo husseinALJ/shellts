@@ -18,23 +18,33 @@ const findCommandPath = (command: string) => {
       return false;
     }
   });
-  if (commandPath) return commandPath
-  return
+  if (commandPath) return commandPath;
+  return;
 };
 
 const getCommandType = (command: string): { type: string; value: string } => {
-  if (command in builtinCommands) return {type: "builtIn", value: command}
-  const commandPath = findCommandPath(command)
-  if (commandPath) return {type: commandPath, value: command}
-  return {type: "", value: command}
+  if (command in builtinCommands) return { type: "builtIn", value: command };
+  const commandPath = findCommandPath(command);
+  if (commandPath) return { type: commandPath, value: command };
+  return { type: "", value: command };
+};
+
+const quotesHandler = (quotedText: string) => {
+  return quotedText.split("'").reduce((accumulator, e, index) => {
+    if ((index + 1) % 2 === 0) return (accumulator += `'${e}'`);
+
+    return (accumulator += e.replace(/\s+/g, " "));
+  });
 };
 
 const paramsFormatter = (params: string) => {
-  return params.replaceAll(/\s+/g, " ")
-}
+  if (params.includes("'")) return quotesHandler(params);
+
+  return params.replaceAll(/\s+/g, " ");
+};
 
 export const parser = (token: Token): CommandAST => {
   const commandType = getCommandType(token[0]);
-  const params = paramsFormatter(token[1])
+  const params = paramsFormatter(token[1]);
   return [commandType, params];
 };
