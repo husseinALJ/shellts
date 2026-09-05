@@ -7,6 +7,9 @@ export const builtinCommands: BuiltIns = {
     rl.close();
     process.exit(0);
   },
+  pwd: () => {
+    return console.log(process.cwd());
+  },
 };
 
 export const executeProgram = (program: CommandAST): void => {
