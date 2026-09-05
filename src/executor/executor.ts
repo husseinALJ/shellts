@@ -10,6 +10,9 @@ export const builtinCommands: BuiltIns = {
   pwd: () => {
     return console.log(process.cwd());
   },
+  echo: (text?: string) => {
+    console.log(text);
+  },
 };
 
 export const executeProgram = (program: CommandAST): void => {
