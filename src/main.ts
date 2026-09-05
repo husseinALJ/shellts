@@ -15,7 +15,7 @@ rl.prompt();
 rl.on("line", (input) => {
   if (input.trim()) {
     const tokens = tokenize(input);
-    if (tokens[0] === "exit") return builtinCommands.exit?.("");
+    if (tokens[0] === "exit") return builtinCommands.exit?.();
     const program = parser(tokens);
     executeProgram(program);
   }
