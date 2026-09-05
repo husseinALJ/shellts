@@ -3,14 +3,14 @@ import { rl } from "../main.js";
 import type { BuiltIns, CommandAST } from "../types/main.js";
 
 export const builtinCommands: BuiltIns = {
-  exit: () => {
+  exit: (): void => {
     rl.close();
     process.exit(0);
   },
-  pwd: () => {
+  pwd: (): void => {
     return console.log(process.cwd());
   },
-  cd: (dir?: string) => {
+  cd: (dir: string): void => {
     if (dir === "~" || dir?.trim() === "") {
       dir = process.env.HOME!;
     }
@@ -21,8 +21,7 @@ export const builtinCommands: BuiltIns = {
       return;
     }
   },
-
-  echo: (text?: string) => {
+  echo: (text: string): void => {
     console.log(text?.replaceAll("'", ""));
   },
 };
