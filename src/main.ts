@@ -2,7 +2,7 @@ import { createInterface } from "readline";
 
 import { tokenize } from "./lexer/tokenizer.js";
 import { parser } from "./parser/parser.js";
-import { executeProgram } from "./executor/executor.js";
+import { builtinCommands, executeProgram } from "./executor/executor.js";
 
 export const rl = createInterface({
   input: process.stdin,
@@ -15,8 +15,9 @@ rl.prompt();
 rl.on("line", (input) => {
   if (input.trim()) {
     const tokens = tokenize(input);
+    if (tokens[0] === "exit") return builtinCommands.exit?.();
     const program = parser(tokens);
-    executeProgram(program)
+    executeProgram(program);
   }
   rl.prompt();
 });
