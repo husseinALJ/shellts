@@ -30,7 +30,7 @@ const getCommandType = (command: string): { type: string; value: string } => {
 };
 
 const paramsFormatter = (params: string) => {
-  return params.replaceAll("/\s+/g", " ")
+  return params.replaceAll(/\s+/g, " ")
 }
 
 export const parser = (token: Token): CommandAST => {
