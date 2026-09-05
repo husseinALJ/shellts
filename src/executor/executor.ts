@@ -1,6 +1,13 @@
+import { rl } from "../main.js";
+
 import type { BuiltIns, CommandAST } from "../types/main.js";
 
-export const builtinCommands: BuiltIns = {};
+export const builtinCommands: BuiltIns = {
+  exit: () => {
+    rl.close();
+    process.exit(0);
+  },
+};
 
 export const executeProgram = (program: CommandAST): void => {
   if (program[0].type === "builtIn")
