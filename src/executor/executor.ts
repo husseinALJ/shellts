@@ -42,7 +42,7 @@ export const builtinCommands: BuiltIns = {
     }
   },
   echo: (text: string): void => {
-    console.log(text?.replaceAll("'", ""));
+    console.log(text);
   },
   type: (params: string): string => {
     if (params.trim() === "") return "";
