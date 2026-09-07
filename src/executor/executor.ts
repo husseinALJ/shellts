@@ -42,7 +42,7 @@ export const builtinCommands: BuiltIns = {
     }
   },
   echo: (text: string): void => {
-    console.log(text);
+    console.log(text.replace(/"([^"]*)"|'([^']*)'/g, (_, dq, sq) => dq ?? sq));
   },
   type: (params: string): string => {
     if (params.trim() === "") return "";
