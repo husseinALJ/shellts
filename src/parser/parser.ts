@@ -1,33 +1,43 @@
 import type { CommandAST, Token } from "../types/main.js";
 import { builtinCommands } from "../executor/executor.js";
 
-const quotesHandler = (quotedText: string): string => {
-  const quotes = ["'", '"'];
-  const textLength = quotedText.length;
-  let formattedText = "";
-  for (let i = 0; i < textLength; i++) {
-    if (quotedText[i] === " ") {
-      formattedText += " "
-      while (quotedText[i] === " ") {
-        i++;
-      }
-    }
-    if (quotes.includes(quotedText[i]!)) {
-      formattedText += quotedText[i];
-      let j = i + 1;
-      while (quotedText[j] !== quotedText[i]) {
-        formattedText += quotedText[j];
-        j++;
-      }
-      formattedText += quotedText[i];
-      i = j;
+const quotesHandler = (text: string): string => {
+  const quotesChars = new Set(["'", '"']);
+  let results = "";
+  let activeQuote: string | null = null;
+  let lastWasSpace = false;
+
+  for (const char of text) {
+    const isSpace = /\s/.test(char);
+
+    if (!isSpace) lastWasSpace = false;
+
+    if (activeQuote) {
+      results += char;
+      if (char === activeQuote) activeQuote = null;
+      continue;
     }
 
-    if (quotedText[i] !== " " && !quotes.includes(quotedText[i]!)) {
-      formattedText += quotedText[i];
+    if (quotesChars.has(char)) {
+      results += char;
+      activeQuote = char;
+      continue;
     }
+
+    if (isSpace) {
+      if (!lastWasSpace) results += char;
+      lastWasSpace = true;
+      continue;
+    }
+
+    results += char;
   }
-  return formattedText;
+
+  if (activeQuote) {
+    throw new Error(`Unterminated quote: ${activeQuote}`);
+  }
+
+  return results;
 };
 
 const paramsFormatter = (params: string) => {
