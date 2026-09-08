@@ -1,6 +1,8 @@
 import path from "node:path";
-import { rl } from "../main.js";
 import fs from "fs";
+import { execSync } from "node:child_process";
+
+import { rl } from "../main.js";
 
 import type { BuiltIns, CommandAST } from "../types/main.js";
 
@@ -60,5 +62,17 @@ export const executeProgram = (program: CommandAST): void => {
     if (typeof results === "string") return console.log(results);
     return;
   }
+
+  if (program[0].type.includes("/")) {
+    try {
+      const output = execSync(`${program[0].value} ${program[1]}`, {
+        encoding: "utf-8",
+      });
+      return console.log(output.trim());
+    } catch (err) {
+      return;
+    }
+  }
+
   console.log(`${program[0].value}: command not found`);
 };
