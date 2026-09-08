@@ -23,6 +23,7 @@ const paramsFormatter = (params: string) => {
     }
 
     if (/\\/.test(char)) {
+      results += char
       backlashWasLast = true;
       continue;
     }
