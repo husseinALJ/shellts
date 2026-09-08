@@ -5,31 +5,43 @@ const paramsFormatter = (params: string) => {
   const quotesChars = new Set(["'", '"']);
   let results = "";
   let activeQuote: string | null = null;
-  let lastWasSpace = false;
+  let backlashWasLast = false;
+  let spaceWasLast = false;
 
   for (const char of params) {
     if (activeQuote) {
       results += char;
-      lastWasSpace = false
+      spaceWasLast = false;
       if (char === activeQuote) activeQuote = null;
+      continue;
+    }
+
+    if (backlashWasLast) {
+      results += char;
+      backlashWasLast = false
+      continue;
+    }
+
+    if (/\\/.test(char)) {
+      backlashWasLast = true;
       continue;
     }
 
     if (quotesChars.has(char)) {
       results += char;
-      lastWasSpace = false
+      spaceWasLast = false;
       activeQuote = char;
       continue;
     }
 
     if (/\s/.test(char)) {
-      if (!lastWasSpace) results += char;
-      lastWasSpace = true;
+      if (!spaceWasLast) results += char;
+      spaceWasLast = true;
       continue;
     }
 
     results += char;
-    lastWasSpace = false
+    spaceWasLast = false;
   }
 
   if (activeQuote) {
