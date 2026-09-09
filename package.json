@@ -4,6 +4,7 @@
   "description": "A shell program",
   "main": "main.ts",
   "scripts": {
+    "test": "jest",
     "dev": "tsx src/main.ts",
     "build": "tsc",
     "start": "node dist/main.ts"
@@ -21,7 +22,11 @@
   },
   "homepage": "https://github.com/husseinALJ/shellts#readme",
   "devDependencies": {
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
+    "@babel/preset-typescript": "^8.0.1",
     "@types/node": "^26.4.0",
+    "babel-jest": "^30.5.1",
     "jest": "^30.5.1",
     "tsx": "^4.23.13",
     "typescript": "^7.0.2"
