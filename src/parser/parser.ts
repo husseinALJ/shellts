@@ -1,7 +1,7 @@
 import type { CommandAST, Token } from "../types/main.js";
 import { builtinCommands } from "../executor/executor.js";
 
-const paramsFormatter = (params: string) => {
+export const paramsFormatter = (params: string) => {
   const quotesChars = new Set(["'", '"']);
   let results = "";
   let activeQuote: string | null = null;
