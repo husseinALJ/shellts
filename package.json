@@ -4,7 +4,7 @@
   "description": "A shell program",
   "main": "main.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --forceExit",
     "dev": "tsx src/main.ts",
     "build": "tsc",
     "start": "node dist/main.ts"
