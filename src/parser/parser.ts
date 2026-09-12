@@ -1,5 +1,5 @@
 import type { CommandAST, Token } from "../types/main.js";
-import { builtinCommands } from "../executor/executor.js";
+import { getCommandType } from "../executor/executor.js";
 
 export const paramsFormatter = (params: string) => {
   const quotesChars = new Set(["'", '"']);
@@ -53,7 +53,7 @@ export const paramsFormatter = (params: string) => {
 };
 
 export const parser = (token: Token): CommandAST => {
-  const commandType = builtinCommands.type(token[0]);
+  const commandType = getCommandType(token[0]);
   const params = paramsFormatter(token[1]);
   return [{ type: commandType, value: token[0] }, params];
 };
