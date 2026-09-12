@@ -7,5 +7,5 @@ export type BuiltIns = {
   "pwd": () => void,
   "cd": (dir: string) => void,
   "echo": (text: string) => void,
-  "type": (command: string) => string
+  "type": (command: string) => string | void
 };
