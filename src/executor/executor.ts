@@ -57,22 +57,24 @@ export const builtinCommands: BuiltIns = {
   echo: (text: string): void => {
     console.log(text.replace(/"([^"]*)"|'([^']*)'/g, (_, dq, sq) => dq ?? sq));
   },
-  type: (params: string): string | void => {
-    if (params.trim() === "") return "";
+  type: (params: string): void => {
+    if (params.trim() === "") return;
 
-    if (params in builtinCommands) return "builtIn";
+    const commandType = getCommandType(params);
 
-    const commandPath = findCommandPath(params);
-    if(commandPath) return commandPath;
+    if (commandType === "builtin")
+      return console.log(`${params}: is a shell builtin`);
+
+    if (commandType?.includes("/"))
+      return console.log(`${params} is ${commandType}`);
 
     return console.log(`${params}: not found`);
   },
 };
 
 export const executeProgram = (program: CommandAST): void => {
-  if (program[0].type === "builtIn") {
-    const results = builtinCommands[program[0].value as keyof BuiltIns](program[1]);
-    if (results === "builtIn") return console.log(`${program[0].value} is a shell builtin`);
+  if (program[0].type === "builtin") {
+    builtinCommands[program[0].value as keyof BuiltIns](program[1]);
     return;
   }
 
