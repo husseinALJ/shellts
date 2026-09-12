@@ -24,6 +24,17 @@ const findCommandPath = (command: string) => {
   return;
 };
 
+export const getCommandType = (command: string): "builtin" | string => {
+  if (command.trim() === "") return "";
+
+  if (command in builtinCommands) return "builtin";
+
+  const commandPath = findCommandPath(command);
+  if (commandPath) return commandPath;
+
+  return "";
+};
+
 export const builtinCommands: BuiltIns = {
   exit: (): void => {
     rl.close();
