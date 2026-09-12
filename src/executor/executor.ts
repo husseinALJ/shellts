@@ -44,11 +44,11 @@ export const builtinCommands: BuiltIns = {
     return console.log(process.cwd());
   },
   cd: (dir: string): void => {
-    if (dir === "~" || dir?.trim() === "") {
-      dir = process.env.HOME!;
+    if (dir === "~" || dir.trim() === "") {
+      dir = process.env.HOME || "~";
     }
     try {
-      return process.chdir(dir!);
+      return process.chdir(dir);
     } catch (err) {
       if (err) return console.log(`cd: ${dir}: No such file or directory`);
       return;
