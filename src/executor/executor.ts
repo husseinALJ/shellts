@@ -35,6 +35,48 @@ export const getCommandType = (command: string): "builtin" | string => {
   return "";
 };
 
+const echoParamFormatter = (text: string): string => {
+  const quotesChars = new Set(["'", '"']);
+  let results = "";
+  let activeQuote: string | null = null;
+  let backlashWasLast = false;
+
+  for (const char of text) {
+    if (activeQuote) {
+      if (char === activeQuote) {
+        activeQuote = null;
+        continue;
+      }
+      results += char;
+      continue;
+    }
+
+    if (backlashWasLast) {
+      results += char;
+      backlashWasLast = false;
+      continue;
+    }
+
+    if (/\\/.test(char)) {
+      backlashWasLast = true;
+      continue;
+    }
+
+    if (quotesChars.has(char)) {
+      activeQuote = char;
+      continue;
+    }
+
+    results += char;
+  }
+
+  if (activeQuote) {
+    throw new Error(`Unterminated quote: ${activeQuote}`);
+  }
+
+  return results;
+};
+
 export const builtinCommands: BuiltIns = {
   exit: (): void => {
     rl.close();
@@ -55,7 +97,7 @@ export const builtinCommands: BuiltIns = {
     }
   },
   echo: (text: string): void => {
-    console.log(text.replace(/"([^"]*)"|'([^']*)'/g, (_, dq, sq) => dq ?? sq));
+    console.log(echoParamFormatter(text));
   },
   type: (params: string): void => {
     if (params.trim() === "") return;
