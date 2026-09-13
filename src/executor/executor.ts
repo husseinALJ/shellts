@@ -105,7 +105,7 @@ export const builtinCommands: BuiltIns = {
     const commandType = getCommandType(params);
 
     if (commandType === "builtin")
-      return console.log(`${params}: is a shell builtin`);
+      return console.log(`${params} is a shell builtin`);
 
     if (commandType?.includes("/"))
       return console.log(`${params} is ${commandType}`);
