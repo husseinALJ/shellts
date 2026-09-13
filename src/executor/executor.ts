@@ -30,7 +30,7 @@ export const getCommandType = (command: string): "builtin" | string => {
   if (command in builtinCommands) return "builtin";
 
   const commandPath = findCommandPath(command);
-  if (commandPath) return commandPath;
+  if (commandPath) return path.join(commandPath, command);
 
   return "";
 };
