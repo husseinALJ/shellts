@@ -11,7 +11,6 @@ export const paramsFormatter = (params: string) => {
   for (const char of params) {
     if (activeQuote) {
       results += char;
-      spaceWasLast = false;
       if (char === activeQuote) activeQuote = null;
       continue;
     }
