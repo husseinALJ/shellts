@@ -43,6 +43,19 @@ const echoParamFormatter = (text: string): string => {
 
   for (const char of text) {
     if (activeQuote) {
+      if (activeQuote === '"') {
+        if (backlashWasLast) {
+          results += char;
+          backlashWasLast = false;
+          continue;
+        }
+
+        if (/\\/.test(char)) {
+          backlashWasLast = true;
+          continue;
+        }
+      }
+      
       if (char === activeQuote) {
         activeQuote = null;
         continue;
