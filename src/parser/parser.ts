@@ -11,18 +11,31 @@ export const paramsFormatter = (params: string) => {
   for (const char of params) {
     if (activeQuote) {
       results += char;
+
+      if (activeQuote === '"') {
+        if (backlashWasLast) {
+          backlashWasLast = false;
+          continue;
+        }
+
+        if (/\\/.test(char)) {
+          backlashWasLast = true;
+          continue;
+        }
+      }
+      
       if (char === activeQuote) activeQuote = null;
       continue;
     }
 
     if (backlashWasLast) {
       results += char;
-      backlashWasLast = false
+      backlashWasLast = false;
       continue;
     }
 
     if (/\\/.test(char)) {
-      results += char
+      results += char;
       backlashWasLast = true;
       continue;
     }
