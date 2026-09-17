@@ -6,6 +6,34 @@ import { rl } from "../main.js";
 
 import type { BuiltIns, CommandAST } from "../types/main.js";
 
+const formateQuotedCommandForPath = (command: string): string => {
+  const activeQuote = command[0]!;
+  let results = "";
+  let backlashWasLast = false;
+  for (const char of command) {
+    if (backlashWasLast) {
+      results += char;
+      backlashWasLast = false;
+      continue;
+    }
+
+    if (char === activeQuote) {
+      continue;
+    }
+
+    if (/\\/.test(char)) {
+      backlashWasLast = true;
+      continue;
+    }
+
+    results += char;
+    backlashWasLast = false;
+    continue;
+  }
+
+  return results;
+};
+
 const findCommandPath = (command: string) => {
   const Path = process.env.PATH;
   const pathArr = Path?.split(path.delimiter);
@@ -29,8 +57,12 @@ export const getCommandType = (command: string): "builtin" | string => {
 
   if (command in builtinCommands) return "builtin";
 
-  const commandPath = findCommandPath(command);
-  if (commandPath) return path.join(commandPath, command);
+  const quotesChars = new Set(["'", '"']);
+  const formattedCommand = quotesChars.has(command[0]!)
+    ? formateQuotedCommandForPath(command)
+    : command;
+  const commandPath = findCommandPath(formattedCommand);
+  if (commandPath) return path.join(commandPath, formattedCommand);
 
   return "";
 };
@@ -55,7 +87,7 @@ const echoParamFormatter = (text: string): string => {
           continue;
         }
       }
-      
+
       if (char === activeQuote) {
         activeQuote = null;
         continue;
